@@ -1,7 +1,7 @@
 import React from "react";
 import { showFormattedDate } from '../utils/data'
 
-function NoteItemBody({ title, body, createdAt }) {
+export default function NoteItemBody({ title, body, createdAt }) {
     
     const date = showFormattedDate(createdAt);
 
@@ -13,5 +13,3 @@ function NoteItemBody({ title, body, createdAt }) {
         </div>
     );
 }
-
-export default NoteItemBody;

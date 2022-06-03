@@ -1,4 +1,5 @@
 import React from "react";
+import autoBind from 'auto-bind';
 import NoteInput from "./NoteInput";
 import NoteMenu from "./NoteMenu";
 import NoteList from "./NoteList";
@@ -8,18 +9,13 @@ class NoteApp extends React.Component {
 
     constructor(props) {
         super(props);
+        autoBind(this);
 
         this.state = {
             notes: getInitialData(),
             filteredText: '',
             showArchive: false
         }
-
-        this.onAddNoteHandler = this.onAddNoteHandler.bind(this);
-        this.onSearchNoteHandler = this.onSearchNoteHandler.bind(this);
-        this.onDeleteHandler = this.onDeleteHandler.bind(this);
-        this.onClickMenuHandler = this.onClickMenuHandler.bind(this);
-        this.onArchiveHandler = this.onArchiveHandler.bind(this);
     }
 
     onAddNoteHandler({ title, body }) {
@@ -74,7 +70,7 @@ class NoteApp extends React.Component {
                 ...prevState,
                 showArchive: val
             }
-        })
+        });
     } 
 
     render() {
@@ -86,8 +82,8 @@ class NoteApp extends React.Component {
                   addNote={this.onAddNoteHandler} 
                 />
                 <NoteMenu 
-                  showArchive={this.state.showArchive}
                   onSearch={this.onSearchNoteHandler} 
+                  showArchive={this.state.showArchive}
                   onClickMenu={this.onClickMenuHandler}
                 />
                 <NoteList 

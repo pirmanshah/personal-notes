@@ -2,7 +2,7 @@ import React from "react";
 import NoteItem from "./NoteItem";
 import catsImage from '../img/cats.png';
 
-function NoteList({ notes, filteredText, onDelete, onArchive, showArchive }) {
+export default function NoteList({ notes, filteredText, onDelete, onArchive, showArchive }) {
 
     const filteredNotes = notes.filter((note) => note.title.toLowerCase().indexOf(filteredText) > -1 && note.archived === showArchive)
 
@@ -25,5 +25,3 @@ function NoteList({ notes, filteredText, onDelete, onArchive, showArchive }) {
         </div>
     );
 }
-
-export default NoteList;

@@ -1,43 +1,32 @@
-import React from "react";
+import React from 'react';
 
-class NoteMenu extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            searchText: '',
-        }
-        this.onSearchEventHandler = this.onSearchEventHandler.bind(this);
-    }
-
-    onSearchEventHandler(event) {
-        this.setState({
-            searchText: event.target.value
-        });
-        this.props.onSearch(this.state)
-    } 
-
-    render() {
-       
-        const searchText = this.state.searchText
-        return (
-            <div className="note-menu">
-                <ul>
-                    <li className={!this.props.showArchive ? 'active' : ''} onClick={() => this.props.onClickMenu(false)}>Active Note</li>
-                    <li className={this.props.showArchive ? 'active' : ''} onClick={() => this.props.onClickMenu(true)}>Archived</li>
-                </ul>
-                <input 
-                  type="text" 
-                  className="input" 
-                  placeholder="Search..." 
-                  value={searchText}
-                  onChange={this.onSearchEventHandler}
-                  onKeyUp={this.onSearchEventHandler}
-                />
-            </div>
-        );
-    }
+export default function NoteMenu({ showArchive, onClickMenu, onSearch }) {
+  const onSearchEventHandler = (event) => {
+    onSearch({
+      searchText: event.target.value,
+    });
+  };
+  return (
+    <div className="note-menu">
+      <ul>
+        <li 
+          className={!showArchive ? 'active' : ''} 
+          onClick={() => onClickMenu(false)}>
+            Active Note
+        </li>
+        <li 
+          className={showArchive ? 'active' : ''} 
+          onClick={() => onClickMenu(true)}>
+            Archived
+        </li>
+      </ul>
+      <input
+        type="text"
+        className="input"
+        placeholder="Search your notes..."
+        onChange={onSearchEventHandler}
+      />
+    </div>
+  );
 }
-
-export default NoteMenu;

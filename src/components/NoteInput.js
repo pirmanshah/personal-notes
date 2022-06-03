@@ -1,18 +1,17 @@
 import React from "react";
+import autoBind from 'auto-bind';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 class NoteInput extends React.Component {
 
     constructor(porps) {
         super(porps);
+        autoBind(this);
 
         this.state = {
             title: '',
             body: ''
         }
-
-        this.onTitleChangeEventHandler = this.onTitleChangeEventHandler.bind(this);
-        this.onBodyChangeEventHandler = this.onBodyChangeEventHandler.bind(this);
-        this.onSubmitEventHandler = this.onSubmitEventHandler.bind(this);
     }
 
     onTitleChangeEventHandler(event) {
@@ -37,13 +36,24 @@ class NoteInput extends React.Component {
     }
  
     countTitleLength(title) {
-        return parseInt(title.length)
+        return parseInt(title.length);
     }
 
     onSubmitEventHandler(event) {
         event.preventDefault();
 
-        this.props.addNote(this.state)
+        if(this.state.title === '' || this.state.body === ''){
+            NotificationManager.warning('Warning message', 'Please input all field!', 3000);
+        } else {
+            this.props.addNote(this.state);
+            this.setState(() => {
+                return {
+                    title: '',
+                    body: ''
+                }
+            });
+            NotificationManager.success('Success message', 'Create note success!');
+        }
     }
 
     render() {
@@ -53,6 +63,7 @@ class NoteInput extends React.Component {
 
         return (
             <React.Fragment>
+                <NotificationContainer/>
                 <p>Characters remaining: {char}</p>
                 <form 
                     className="note-form" 
@@ -63,15 +74,13 @@ class NoteInput extends React.Component {
                       value={this.state.title} 
                       onChange={this.onTitleChangeEventHandler} 
                       placeholder="Title..."
-                      required
                     />
                     <textarea 
                       className="input" 
                       rows="5" 
                       value={this.state.body} 
                       onChange={this.onBodyChangeEventHandler} 
-                      placeholder="Description here..."
-                      required>
+                      placeholder="Description here...">
                     </textarea>
                     <button type="submit">ADD NOTE</button>
                 </form>
